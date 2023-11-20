@@ -21,6 +21,7 @@ class encoderit_admin_functionalities
             ]);
         }else
         {
+            
             global $wpdb;
             $table_name = $wpdb->prefix . 'encoderit_custom_form';
         
@@ -33,8 +34,11 @@ class encoderit_admin_functionalities
             );
              
             $inserted=$wpdb->update($table_name, $data, $where_condition);
+
                 if($inserted)
                 {
+                    self::send_mail_to_user();
+
                     echo  json_encode([
                         'success' => 'success',
                         'message'=>'Form Submmited Successfully'
@@ -98,5 +102,26 @@ class encoderit_admin_functionalities
         }   
        }
        return json_encode($file_paths);
+    }
+    public static function send_mail_to_user()
+    {
+        $search_data=$_POST['form_id'];
+
+        global $wpdb;
+
+        $table_name=$wpdb->prefix . 'encoderit_custom_form';
+        $sql="SELECT * FROM " . $table_name . " WHERE id = '$search_data'";
+        $result=$wpdb->get_row($sql);
+        $subscriber=get_user_by('ID',$result->user_id);
+        $to = $subscriber->user_email;
+
+		$subject = 'Admin Upload Files to Your Case ' . ' (' . $subscriber->display_name . ')';
+
+		$message = '<p>Admin Upload Files to Your Case Please Collect them </p>';
+
+		$headers = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+		wp_mail($to, $subject, $message, $headers);
     }
 }

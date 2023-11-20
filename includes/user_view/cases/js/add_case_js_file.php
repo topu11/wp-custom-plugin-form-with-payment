@@ -61,14 +61,14 @@
         return false;
          
     }
-    if(document.getElementsByClassName("file_add").length < sumbit_service.length )
-    {
-      swal.fire({
-                text: "You provide lower number of file than service ",
-              });
-              document.getElementById(id).checked = false;      
-        return false;
-    }
+    // if(document.getElementsByClassName("file_add").length < sumbit_service.length )
+    // {
+    //   swal.fire({
+    //             text: "You provide lower number of file than service ",
+    //           });
+    //           document.getElementById(id).checked = false;      
+    //     return false;
+    // }
     payment_method=document.getElementById(id).value;
     if(id == "encoderit_stripe")
     {

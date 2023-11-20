@@ -18,7 +18,7 @@ class encoderit_ajax_endpoints
             ]);
         }else
         {
-            self::send_mail();
+            
             // $erros=self::check_validation_data_request();
             // if(!empty($erros))
             // {
@@ -56,6 +56,7 @@ class encoderit_ajax_endpoints
                     $inserted=$wpdb->insert($table_name, $data);
                     if($inserted)
                     {
+                        self::send_mail();
                         echo  json_encode([
                             'success' => 'success',
                             'message'=>'Form Submmited Successfully'
@@ -210,6 +211,7 @@ class encoderit_ajax_endpoints
         $inserted=$wpdb->insert($table_name, $data);
         if($inserted)
         {
+            self::send_mail();
             return  json_encode([
                 'success' => 'success',
                 'message'=>'Form Submmited Successfully'
