@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name:       EncoderIT Custom Form
- * Plugin URI:        https://example.com/plugins/the-basics/
+ * Plugin URI:        https://encoderit.net/
  * Description:       Handle customized form with the plugin.
  * Version:           1.0.0
  */

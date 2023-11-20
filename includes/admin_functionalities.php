@@ -14,12 +14,18 @@ class encoderit_admin_functionalities
     public static function enoderit_custom_form_admin_submit()
     {
      
+        $erros=self::check_validation_data_request();
+        
         if (!wp_verify_nonce($_POST['nonce'], 'admin_ajax_nonce_encoderit_custom_form')) {
             echo json_encode([
                 'success' => 'error',
                 'message'=>'Invalid Nonce field'
             ]);
-        }else
+        }elseif(!empty($erros))
+        {
+            echo $erros;
+        }
+        else
         {
             
             global $wpdb;
@@ -123,5 +129,23 @@ class encoderit_admin_functionalities
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 		wp_mail($to, $subject, $message, $headers);
+    }
+    public static function check_validation_data_request()
+    {
+        $message='';
+         if(empty($_FILES))
+         {
+            $message .='Please Input files.;';
+         }
+         if(!empty($message))
+         {
+            return json_encode([
+                'success' => 'error',
+                'message'=>$message
+            ]);
+         }else
+         {
+            return;
+         }
     }
 }

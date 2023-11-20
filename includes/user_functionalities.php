@@ -69,20 +69,6 @@ class encoderit_user_functionalities
     
             
         }
-        // $zip_filename = sanitize_text_field($_GET['custom_zip_download']);
-        // $zip_path = sys_get_temp_dir() . '/' . $zip_filename;
         
-        // if (file_exists($zip_path)) {
-        //     var_dump($zip_path);
-        //     exit;
-        //     header('Content-Type: application/zip');
-        //     header('Content-Disposition: attachment; filename="' . $zip_filename . '"');
-        //     header('Content-Length: ' . filesize($zip_path));
-        //     readfile($zip_path);
-        //     unlink($zip_path);
-        //     exit;
-        // } else {
-        //     wp_die('File not found.');
-        // }
     }
 }

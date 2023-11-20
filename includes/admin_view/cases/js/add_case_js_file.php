@@ -59,7 +59,7 @@
                                 showConfirmButton: false,
                                 timer: 2500
                             })
-                            location.reload();
+                            window.location.href='<?=admin_url() .'/admin.php.?page=encoderit-custom-cases-user'?>'
                         }
                         if(obj.success == "error")
                         {

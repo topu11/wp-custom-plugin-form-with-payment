@@ -1,6 +1,6 @@
 <?php
 ?>
- <script src="https://www.paypal.com/sdk/js?client-id=<?=ENCODER_IT_PAYPAL_CLIENT?>"></script>
+ <script src="https://www.paypal.com/sdk/js?client-id=<?=ENCODER_IT_PAYPAL_CLIENT?>&currency=USD&disable-funding=paylater"></script>
 <script>
   let total_price = 0;
   let payment_method='';
@@ -21,6 +21,16 @@
     e.preventDefault();
 
     jQuery(this).closest("div").remove(); // to get clicked element
+     
+    var check_payment_option_radio=false;
+     if(document.getElementById('encoderit_paypal').checked || document.getElementById('encoderit_stripe').checked)
+     {
+         check_payment_option_radio=true;
+     }
+    if(document.getElementsByClassName("file_add").length == 0 && check_payment_option_radio)
+    {
+        location.reload();
+    }
   });
 
   function add_total_price(id) {
@@ -51,8 +61,18 @@
                 sumbit_service.push(service[i].value)
             }
     }
-
-    if(total_price == 0 || document.getElementsByClassName("file_add").length == 0 || sumbit_service.length == 0 || person_number == 0 || !description)
+    var custom_file=document.getElementsByClassName("file_add");
+    var file_bug=false;
+      for(var i=0;i<custom_file.length;i++)
+    {
+           if(!custom_file[i].files[0])
+           {
+             file_bug=true;
+             break;
+           }
+              
+    }
+    if(total_price == 0 || document.getElementsByClassName("file_add").length == 0 || sumbit_service.length == 0 || person_number == 0 || !description || file_bug)
     {
        swal.fire({
                 text: "please provide all information",
@@ -191,7 +211,8 @@ paypal.Buttons({
                                 showConfirmButton: false,
                                 timer: 2500
                             })
-                            location.reload();
+                          
+                            window.location.href='<?=admin_url() .'/admin.php.?page=encoderit-custom-cases-user'?>'
                         }
                         if(obj.success == "error")
                         {
@@ -263,6 +284,9 @@ var form = document.getElementById('fileUploadForm');
             var errorElement = document.getElementById('card-errors');
             errorElement.textContent = result.error.message;
           } else {
+            
+            swal.showLoading();
+
             var formdata = new FormData();
             formdata.append('paymentMethodId',result.paymentMethod.id);
             formdata.append('sumbit_service',sumbit_service);
@@ -298,7 +322,7 @@ var form = document.getElementById('fileUploadForm');
                                 showConfirmButton: false,
                                 timer: 2500
                             })
-                            location.reload();
+                            window.location.href='<?=admin_url() .'/admin.php.?page=encoderit-custom-cases-user'?>'
                         }
                         if(obj.success == "error")
                         {

@@ -10,20 +10,19 @@ class encoderit_ajax_endpoints
          
         //var_dump($_POST);
         //exit;
-        
+        $erros=self::check_validation_data_request();
+
         if (!wp_verify_nonce($_POST['nonce'], 'admin_ajax_nonce_encoderit_custom_form')) {
             echo json_encode([
                 'success' => 'error',
                 'message'=>'Invalid Nonce field'
             ]);
-        }else
+        }elseif(!empty($erros))
         {
-            
-            // $erros=self::check_validation_data_request();
-            // if(!empty($erros))
-            // {
-            //     echo $erros;
-            // }
+            echo $erros;
+        }
+        else
+        {
             if($_POST['payment_method']=="Paypal")
             {
                 $is_payment_success=self::encode_it_paypal_payment();
@@ -91,17 +90,13 @@ class encoderit_ajax_endpoints
          {
             $message .='No Service Selected.;';
          }
-         if(count($_FILES['file_array']) < count(explode(',',$_POST['sumbit_service'])))
-         {
-            $message .='No of Files is less than No of services.;';
-         }
          if(empty($_POST['payment_method']))
          {
             $message .='Please Select Payment Method.;';
          }
          if(!empty($message))
          {
-            echo json_encode([
+            return json_encode([
                 'success' => 'error',
                 'message'=>$message
             ]);
@@ -148,7 +143,7 @@ class encoderit_ajax_endpoints
        }
        return json_encode($file_paths);
     } 
-    public function encode_it_stripe_payment()
+    public static function encode_it_stripe_payment()
     {
         try {
             // Create a PaymentIntent
