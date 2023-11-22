@@ -10,6 +10,7 @@
   let paypal_transaction_status='';
   let paypal_transaction_name='';
   let paypal_transaction_details='';
+  
 
   jQuery(document).ready(function () {
     jQuery("#addFile").on("click", function (e) {
@@ -62,7 +63,25 @@
     document.getElementById("price").innerText = total_price;
   }
 
-  function add_total_price_by_persons()
+  document.getElementById('person_number').addEventListener('change', function(event) {
+             var person_number_on_event = event.target.value;
+             if(person_number_on_event <= 0)
+             {
+                  return ;
+             }
+            add_total_price_by_persons(person_number_on_event)
+        });
+
+  document.getElementById('person_number').addEventListener('input', function(event) {
+         var person_number_on_event = event.target.value;
+         if(person_number_on_event <= 0)
+             {
+                  return ;
+             }
+            add_total_price_by_persons(person_number_on_event)
+        });
+
+  function add_total_price_by_persons(number_of_persons)
   {
    
     // var temp_price=0;
@@ -77,7 +96,7 @@
     //     }
               
     // }
-    total_price=document.getElementById('person_number').value*temp_price_on_service_check;
+    total_price=number_of_persons*temp_price_on_service_check;
     if(total_price <= 0)
     {
       total_price=0;

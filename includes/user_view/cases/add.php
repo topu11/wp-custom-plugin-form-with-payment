@@ -15,7 +15,7 @@
         <label for="">Person number:</label>
       </div>
       <div class="right_col person_number_col">
-        <input type="number" name="person_number" id="person_number" onchange="add_total_price_by_persons()" value="" required />
+        <input type="number" name="person_number" min="1" id="person_number"  value="" required />
       </div>
     </div>
 

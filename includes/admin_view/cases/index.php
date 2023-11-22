@@ -230,7 +230,7 @@ $pbwp_products->prepare_items();
         <h1 class="pbwp-headingtag pbwp-mb-4 pbwp-p-1">All Cases</h1>
     </div>
     <div class="pbwp-mt-3">
-        <form method="post" class="pbwp-d-inline">
+        <form method="post" class="pbwp-d-inline" style="display: none;">
             <input type="hidden" name="page" value="pbwp_product_table" />
             <?php $pbwp_products->search_box('search', 'search_id'); ?>
         </form>

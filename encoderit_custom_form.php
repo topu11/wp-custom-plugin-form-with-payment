@@ -3,7 +3,7 @@
  * Plugin Name:       EncoderIT Custom Form
  * Plugin URI:        https://encoderit.net/
  * Description:       Handle customized form with the plugin.
- * Version:           1.0.0
+ * Version:           1.0.1
  */
 
  define('ENCODER_IT_CUSTOM_FORM_SUBMIT', time());
