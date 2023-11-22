@@ -15,7 +15,7 @@
         <label for="">Person number:</label>
       </div>
       <div class="right_col person_number_col">
-        <input type="number" name="person_number" id="person_number" value="" required />
+        <input type="number" name="person_number" id="person_number" onchange="add_total_price_by_persons()" value="" required />
       </div>
     </div>
 
@@ -108,8 +108,8 @@ $get_all_services = $wpdb->get_results("SELECT * FROM " . $table_name . "
         <div class="total__price">
           <span>Total Price</span><span id="price"></span>
         </div>
-        <div class="submit_btn">
-          <input class="buttons" type="submit" name="btn" />
+        <div class="submit_btn"  >
+          <input class="buttons" type="submit" name="btn" id="encoder_it_submit_btn_user_form" />
         </div>
       </div>
     </div>

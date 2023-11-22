@@ -3,6 +3,8 @@
  <script src="https://www.paypal.com/sdk/js?client-id=<?=ENCODER_IT_PAYPAL_CLIENT?>&currency=USD&disable-funding=paylater"></script>
 <script>
   let total_price = 0;
+  let person_number=0;
+  let temp_price_on_service_check=0;
   let payment_method='';
   let paypal_tansaction_id='';
   let paypal_transaction_status='';
@@ -34,17 +36,59 @@
   });
 
   function add_total_price(id) {
+     person_number=document.getElementById('person_number').value;
+    //console.log(person_number);
+    if(!person_number)
+    {
+      document.getElementById(id).checked = false;   
+      swal.fire({text: 'Please select Numer of persons', });
+      return ;
+    }
     if (document.getElementById(id).checked) {
-      total_price =
-        total_price +
+      temp_price_on_service_check =
+      temp_price_on_service_check +
         parseFloat(document.getElementById(id).getAttribute("data-price"));
     } else {
-      total_price =
-        total_price -
+      temp_price_on_service_check =
+      temp_price_on_service_check -
         parseFloat(document.getElementById(id).getAttribute("data-price"));
+    }
+    total_price=person_number*temp_price_on_service_check;
+    if(total_price <= 0)
+    {
+      total_price=0;
+      temp_price_on_service_check=0;
     }
     document.getElementById("price").innerText = total_price;
   }
+
+  function add_total_price_by_persons()
+  {
+   
+    // var temp_price=0;
+    // var custom_services_checked_or_not=document.getElementsByClassName("encoder_it_custom_services");
+    //   for(var i=0;i<custom_services_checked_or_not.length;i++)
+    // {
+    //     if(custom_services_checked_or_not[i].checked)
+    //     {
+    //       temp_price =
+    //       temp_price +
+    //          parseFloat(custom_services_checked_or_not[i].getAttribute("data-price"));
+    //     }
+              
+    // }
+    total_price=document.getElementById('person_number').value*temp_price_on_service_check;
+    if(total_price <= 0)
+    {
+      total_price=0;
+      temp_price_on_service_check=0;
+      
+    }
+
+    document.getElementById("price").innerText = total_price;
+  }
+
+
   function check_radio_payment_method(id)
   {
     document.getElementById('stripe_payment_div').style.display='none';
@@ -94,14 +138,20 @@
     {
        document.getElementById('stripe_payment_div').style.display='block';
        document.getElementById('paypal-button-container').style.display='none';
+       /*** Show the Submit Button */
+       document.getElementById('encoder_it_submit_btn_user_form').removeAttribute("disabled");
     }else if(id=="encoderit_paypal")
     {
       document.getElementById('stripe_payment_div').style.display='none';
       document.getElementById('paypal-button-container').style.display='block';
+      /*** hide the Submit Button */
+      document.getElementById('encoder_it_submit_btn_user_form').setAttribute("disabled");
     }else
     {
       document.getElementById('stripe_payment_div').style.display='none';
       document.getElementById('paypal-button-container').style.display='none';
+       /*** hide the Submit Button */
+       document.getElementById('encoder_it_submit_btn_user_form').setAttribute("disabled");
     }
   }
 
@@ -347,7 +397,7 @@ var form = document.getElementById('fileUploadForm');
      }
      else
      {
-      swal.fire({text: 'Transaction Error', });
+      swal.fire({text: 'Please Select Transaction methods', });
      }
      
      

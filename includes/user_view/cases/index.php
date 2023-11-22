@@ -126,7 +126,13 @@ class EncoderITCustomForm extends WP_List_Table
         }
         if (count($result) != 0) {
             $sl = 1;
+               $is_ssl=false;
+               if(str_contains(site_url(), 'https'))
+                {
+                   $is_ssl=true;
+                }
             foreach ($result as $singledata) {
+                
                 
                 $files=[];
                 $download_link='';
@@ -134,7 +140,14 @@ class EncoderITCustomForm extends WP_List_Table
                 {
                         $files_by_admin=json_decode($singledata->files_by_admin,true);
                         foreach ($files_by_admin as $file) {
-                            $file_path = wp_upload_dir()['baseurl'].$file['paths'];
+                            if($is_ssl)
+                            {
+
+                                $file_path = str_replace("http://","https://",wp_upload_dir()['baseurl'].$file['paths']);
+                            }else
+                            {
+                                $file_path = wp_upload_dir()['baseurl'].$file['paths'];
+                            }
                             array_push($files,$file_path);
                         }
                         $a=implode(',',$files);
