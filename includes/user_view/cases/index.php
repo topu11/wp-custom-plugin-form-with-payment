@@ -101,7 +101,7 @@ class EncoderITCustomForm extends WP_List_Table
     public function get_sortable_columns()
     {
         return array(
-                    'Amount' => array('Amount', true),
+                    // 'Amount' => array('Amount', true),
                     'Case No.'=>array('Case No.',true)
                     );
     }
@@ -210,7 +210,7 @@ class EncoderITCustomForm extends WP_List_Table
     {
         // Set defaults
         $orderby = 'Case No.';
-        $order = 'asc';
+        $order = 'desc';
 
         // If orderby is set, use this as the sort column
         if (!empty($_GET['orderby'])) {
