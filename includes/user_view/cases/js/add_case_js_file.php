@@ -1,6 +1,4 @@
-<?php
-?>
- <script src="https://www.paypal.com/sdk/js?client-id=<?=ENCODER_IT_PAYPAL_CLIENT?>&currency=USD&disable-funding=paylater"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=<?=ENCODER_IT_PAYPAL_CLIENT?>&currency=USD&disable-funding=paylater"></script>
 <script>
   let total_price = 0;
   let person_number=0;
@@ -190,7 +188,7 @@ var stripe = Stripe("<?=ENCODER_IT_STRIPE_PK?>");
         color: '#fce883',
       },
       '::placeholder': {
-        color: '#87BBFD',
+        color: '#00000',
       },
     },
     invalid: {

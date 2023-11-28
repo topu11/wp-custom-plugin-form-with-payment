@@ -1,6 +1,6 @@
 <?php
 
-require_once WP_PLUGIN_DIR . '/EncoderIT-Custom-Form' . '/assets/css/main.php';
+require_once WP_PLUGIN_DIR . '/SuncodeIT-Custom-Form' . '/assets/css/main.php';
 global $wpdb;
         
   $table_name = $wpdb->prefix . 'encoderit_custom_form';

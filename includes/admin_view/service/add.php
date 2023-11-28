@@ -1,5 +1,4 @@
 <?php
-
 if(isset($_POST['btn'])){
 
   if(!is_numeric($_POST["service_price"]))

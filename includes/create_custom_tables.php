@@ -1,5 +1,4 @@
 <?php
-
 class encoderit_create_custom_table
 {
     public static function create_custom_tables()

@@ -1,5 +1,4 @@
 <?php
-
 class encoderit_user_functionalities
 {
     public static function get_all_case_by_user()

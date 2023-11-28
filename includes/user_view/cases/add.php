@@ -1,7 +1,6 @@
 <?php
- require_once( WP_PLUGIN_DIR . '/EncoderIT-Custom-Form'.'/assets/css/main.php' ); 
+ require_once( WP_PLUGIN_DIR . '/SuncodeIT-Custom-Form'.'/assets/css/main.php' ); 
 ?>
-
 <div style="padding: 30px">
   <h1>Add New Case</h1>
   <form
@@ -115,8 +114,4 @@ $get_all_services = $wpdb->get_results("SELECT * FROM " . $table_name . "
     </div>
   </form>
 </div>
-
 <?php require_once( dirname( __FILE__ ).'/js/add_case_js_file.php' ); ?>
-
-
-

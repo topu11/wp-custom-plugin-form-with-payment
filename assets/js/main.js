@@ -309,6 +309,17 @@
       var lastPart = parts[parts.length - 1];
       console.log(lastPart);
       compressed_img(urls,file_name)
+      var case_id=document.getElementById(id).getAttribute('data-case');
+      var previous_case_id=getCookie('encoder_it_file_downloed_by_user');
+      if(previous_case_id)
+      {
+        var cookie_case_id=previous_case_id+','+case_id;
+      }else
+      {
+        var cookie_case_id=case_id;
+      }
+      setCookie('encoder_it_file_downloed_by_user', cookie_case_id, 3);
+      location.reload();
   }
   function compressed_img(urls, filename="bundale") {
       var zip = new JSZip();
@@ -349,3 +360,22 @@
   }
   
   var p={};
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}

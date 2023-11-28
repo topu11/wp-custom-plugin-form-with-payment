@@ -74,6 +74,7 @@ class EncoderITCustomForm extends WP_List_Table
             "Case No." => "Case No.",
             "Amount" => "Amount",
             "Date"        =>      "Date",
+            "Admin Submitted Date"        =>      "Admin Submitted Date",
             "Admin File Upload"  =>"Download Submitted File By Admin",
         );
 
@@ -136,7 +137,9 @@ class EncoderITCustomForm extends WP_List_Table
                 
                 $files=[];
                 $download_link='';
-                if(!empty($singledata->files_by_admin))
+                $encoderit_download_button_avaialbe=encoderit_download_button_avaialbe($singledata->updated_at,$singledata->id);
+                $encoderit_already_downloaded=false;
+                if(!empty($singledata->files_by_admin) && $encoderit_download_button_avaialbe)
                 {
                         $files_by_admin=json_decode($singledata->files_by_admin,true);
                         foreach ($files_by_admin as $file) {
@@ -150,15 +153,40 @@ class EncoderITCustomForm extends WP_List_Table
                             }
                             array_push($files,$file_path);
                         }
+                        $case_id=$singledata->id;
                         $a=implode(',',$files);
-
+                        $file_name_string='#'.$singledata->id.'-'.date('Y-m-d-H-i-s').'-'.wp_get_current_user()->ID;
                         $download_link='<a class="button" style="background-color:#007bff;color:#fff" href="javascript:void(0)" 
-                        data-name="'.wp_get_current_user()->user_email.'"  id="user_id_enc_don_'.$sl.'" data-file="'.$a.'" onclick="enc_download(this.id)">Download</a>';
+                        data-case="'.$case_id.'" data-name="'.$file_name_string.'"  id="user_id_enc_don_'.$sl.'" data-file="'.$a.'" onclick="enc_download(this.id)">Download</a>';
                         
              
                    
                 }
+                if (isset($_COOKIE['encoder_it_file_downloed_by_user'])) {
+                    $encoder_it_file_downloed_by_user = $_COOKIE['encoder_it_file_downloed_by_user'];
+                    if(in_array($singledata->id,explode(',',$encoder_it_file_downloed_by_user)))
+                    {
+                        $download_link='<a class="button" style="background-color:#28a745;color:#fff" href="javascript:void(0)">already downloaded</a>';
+                        $encoderit_already_downloaded=true;
+                    }
+                }
+                if(!empty($singledata->files_by_admin) && !$encoderit_already_downloaded)
+                {
+                    if(!encoderit_download_button_avaialbe_time_expire($singledata->updated_at))
+                    {
+                        $download_link='<a class="button" style="background-color:#c82333;color:#fff" href="javascript:void(0)">24 Hours expire</a>';
+                    }
+                }
+                
+
                 $date=explode(' ',$singledata->created_at)[0];
+                $updated_at='';
+                if(!empty($singledata->updated_at))
+                {
+
+                    $updated_at=explode(' ',$singledata->updated_at)[0];
+                    $updated_at=implode('/',array_reverse(explode('-',$updated_at)));
+                }
                 //$date=str_replace('-','/',$date);
                 
 
@@ -166,6 +194,7 @@ class EncoderITCustomForm extends WP_List_Table
                     'Case No.'                    => '#'.$singledata->id,
                     'Amount'              =>'$ '. $singledata->total_price,
                     'Date'                => implode('/',array_reverse(explode('-',$date))),
+                    'Admin Submitted Date'                => $updated_at,
                     'Admin File Upload'        =>$download_link,
                     'Action'                    => '',
                 );
@@ -192,6 +221,7 @@ class EncoderITCustomForm extends WP_List_Table
             case "Case No.":
             case "Amount":
             case "Date":
+            case "Admin Submitted Date":    
             case "Admin File Upload":
             case 'Action':
                 return $item[$column_name];

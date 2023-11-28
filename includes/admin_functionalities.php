@@ -1,5 +1,4 @@
 <?php
-
 class encoderit_admin_functionalities
 {
     public static function get_service_list()

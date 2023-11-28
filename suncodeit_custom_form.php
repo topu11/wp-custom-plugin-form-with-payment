@@ -1,7 +1,7 @@
 <?php
 /*
- * Plugin Name:       EncoderIT Custom Form
- * Plugin URI:        https://encoderit.net/
+ * Plugin Name:       Suncode IT Custom Form
+ * Plugin URI:        https://test.net/
  * Description:       Handle customized form with the plugin.
  * Version:           1.0.3
  */
@@ -78,3 +78,55 @@ add_action('admin_enqueue_scripts', 'admin_enqueue_scripts_load');
 /***********Ajax Functionalities ************/
 add_action('wp_ajax_enoderit_custom_form_submit', array('encoderit_ajax_endpoints','enoderit_custom_form_submit'));
 add_action('wp_ajax_enoderit_custom_form_admin_submit', array('encoderit_admin_functionalities','enoderit_custom_form_admin_submit'));
+
+
+if (!function_exists('encoderit_download_button_avaialbe')) {
+   function encoderit_download_button_avaialbe($updated_at,$case_id)
+   {
+      if(empty($updated_at))
+      {
+         return false;
+      }
+      
+      $currentTimestamp = strtotime(date('Y-m-d H:i:s'));
+      $otherTimestamp = strtotime($updated_at);
+      $timeDifferenceInSeconds = $otherTimestamp - $currentTimestamp;
+      $interval = abs($timeDifferenceInSeconds);
+      if (isset($_COOKIE['encoder_it_file_downloed_by_user'])) {
+         $encoder_it_file_downloed_by_user = $_COOKIE['encoder_it_file_downloed_by_user'];
+         if(in_array($case_id,explode(',',$encoder_it_file_downloed_by_user)))
+         {
+            return false;
+         }
+     }
+      if($interval/3600 <=24)
+      {
+         return true;
+      }else
+      {
+         return false;
+      }
+   }
+}
+if (!function_exists('encoderit_download_button_avaialbe_time_expire')) {
+   function encoderit_download_button_avaialbe_time_expire($updated_at)
+   {
+      if(empty($updated_at))
+      {
+         return false;
+      }
+      
+      $currentTimestamp = strtotime(date('Y-m-d H:i:s'));
+      $otherTimestamp = strtotime($updated_at);
+      $timeDifferenceInSeconds = $otherTimestamp - $currentTimestamp;
+      $interval = abs($timeDifferenceInSeconds);
+      if($interval/3600 <=24)
+      {
+         return true;
+      }else
+      {
+         return false;
+      }
+   }
+}
+

@@ -1,6 +1,5 @@
 <?php
- 
- require_once( WP_PLUGIN_DIR . '/EncoderIT-Custom-Form'.'/stripe-php-library/init.php' );
+require_once( WP_PLUGIN_DIR . '/SuncodeIT-Custom-Form'.'/stripe-php-library/init.php' );
  \Stripe\Stripe::setApiKey(ENCODER_IT_STRIPE_SK);
 
 class encoderit_ajax_endpoints
