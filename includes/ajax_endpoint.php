@@ -236,5 +236,30 @@ class encoderit_ajax_endpoints
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 		wp_mail($to, $subject, $message, $headers);
-    }    
+    }
+    
+    public function enoderit_custom_form_download_zip_status()
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'encoderit_custom_form';
+        if (!wp_verify_nonce($_POST['nonce'], 'user_zip_download_suncode')) {
+            echo json_encode([
+                'success' => 'error',
+                'message'=>'Invalid Nonce field'
+            ]);
+        }else
+        {
+            $data = array(
+                'is_downloaded_by_user' => 1,
+            );
+            $where_condition=array(
+                'id' => $_POST['case_id']
+            );
+        }
+        $inserted=$wpdb->update($table_name, $data, $where_condition);
+        echo  json_encode([
+            'success' => 'success',
+        ]);
+        wp_die();
+    }
 }

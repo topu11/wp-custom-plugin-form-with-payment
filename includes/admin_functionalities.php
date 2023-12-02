@@ -32,6 +32,7 @@ class encoderit_admin_functionalities
         
             $data = array(
                 'files_by_admin' => self::save_files_by_admin(),
+                'is_downloaded_by_user' => 0,
                 'updated_at' => date('Y-m-d H:i:s'),
             );
             $where_condition=array(

@@ -298,30 +298,45 @@
 //   var filename = "bundle";
   //The function is called
   //compressed_img(urls, filename);
-  function  enc_download(id)
+function  enc_download(id)
   {
-    
-      var file = document.getElementById(id).getAttribute('data-file');
-      var file_name = document.getElementById(id).getAttribute('data-name');
-      var urls=file.split(','); 
-      console.log(urls);
-      var parts=urls[0].split("/");
-      var lastPart = parts[parts.length - 1];
-      console.log(lastPart);
-      compressed_img(urls,file_name)
+    swal.showLoading();
       var case_id=document.getElementById(id).getAttribute('data-case');
-      var previous_case_id=getCookie('encoder_it_file_downloed_by_user');
-      if(previous_case_id)
-      {
-        var cookie_case_id=previous_case_id+','+case_id;
-      }else
-      {
-        var cookie_case_id=case_id;
-      }
-      setCookie('encoder_it_file_downloed_by_user', cookie_case_id, 3);
-      location.reload();
+      var formdata = new FormData();
+      formdata.append('action','enoderit_custom_form_download_zip_status');
+      formdata.append('nonce',action_url_ajax.nonce)
+      formdata.append('case_id',case_id)
+      jQuery.ajax({
+        url: action_url_ajax.ajax_url,
+        type: 'post',
+        processData: false,
+        contentType: false,
+        processData: false,
+        data: formdata,
+        success: function(data) {
+          swal.hideLoading()
+          const obj = JSON.parse(data);
+          console.log(obj);
+
+            if (obj.success == "success") {
+              var file = document.getElementById(id).getAttribute('data-file');
+              var file_name = document.getElementById(id).getAttribute('data-name');
+              var urls=file.split(','); 
+              console.log(urls);
+              var parts=urls[0].split("/");
+              var lastPart = parts[parts.length - 1];
+              console.log(lastPart);
+              compressed_img(urls,file_name,case_id)
+            }
+            if(obj.success == "error")
+            {
+              
+            }
+        }
+      });
+      
   }
-  function compressed_img(urls, filename="bundale") {
+  function compressed_img(urls, filename="bundale",case_id) {
       var zip = new JSZip();
       var count = 0;
       var name = filename + ".zip";
@@ -357,6 +372,18 @@
               p1.value = prog/total;
           });
       });
+      setTimeout((case_id) => {
+        jQuery('#download_flag_'+case_id).empty();
+        jQuery('#download_flag_'+case_id).html('<a class="button" style="background-color:#28a74573;border-color: #28a74573;cursor: not-allowed;color:#fff" href="javascript:void(0)">Already downloaded</a>');
+        Swal.fire({
+          // position: 'top-end',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 2500
+      })
+     }, 3000);
+
+      
   }
   
   var p={};

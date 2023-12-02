@@ -17,6 +17,7 @@
  jQuery('#enoderit_cuctom_form_admin_file_submit').on('click',function(e)
     {
       e.preventDefault();
+      swal.showLoading();
       var formdata = new FormData();
       var custom_file=document.getElementsByClassName("file_add");
       if(custom_file.length == 0)

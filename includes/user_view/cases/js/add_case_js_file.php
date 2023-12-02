@@ -178,8 +178,8 @@ var stripe = Stripe("<?=ENCODER_IT_STRIPE_PK?>");
   var cardElement = elements.create('card', {
   style: {
     base: {
-      iconColor: '#c4f0ff',
-      color: '#00000',
+      iconColor: '#000',
+      color: '#3c434a',
       fontWeight: '500',
       fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
       fontSize: '16px',
@@ -188,13 +188,16 @@ var stripe = Stripe("<?=ENCODER_IT_STRIPE_PK?>");
         color: '#fce883',
       },
       '::placeholder': {
-        color: '#00000',
+        color: '#3c434a',
       },
     },
     invalid: {
-      iconColor: '#FFC7EE',
-      color: '#FFC7EE',
+      iconColor: '#ff000c',
+      color: '#ff000c',
     },
+      g: {
+    fill: '#000',
+  },
   },
 });
   

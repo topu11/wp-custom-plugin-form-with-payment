@@ -137,7 +137,7 @@ class EncoderITCustomForm extends WP_List_Table
                 
                 $files=[];
                 $download_link='';
-                $encoderit_download_button_avaialbe=encoderit_download_button_avaialbe($singledata->updated_at,$singledata->id);
+                $encoderit_download_button_avaialbe=encoderit_download_button_avaialbe($singledata->updated_at);
                 $encoderit_already_downloaded=false;
                 if(!empty($singledata->files_by_admin) && $encoderit_download_button_avaialbe)
                 {
@@ -162,13 +162,11 @@ class EncoderITCustomForm extends WP_List_Table
              
                    
                 }
-                if (isset($_COOKIE['encoder_it_file_downloed_by_user'])) {
-                    $encoder_it_file_downloed_by_user = $_COOKIE['encoder_it_file_downloed_by_user'];
-                    if(in_array($singledata->id,explode(',',$encoder_it_file_downloed_by_user)))
-                    {
-                        $download_link='<a class="button" style="background-color:#28a745;color:#fff" href="javascript:void(0)">already downloaded</a>';
+                if ($singledata->is_downloaded_by_user == 1) {
+                    
+                        $download_link='<a class="button" style="background-color:#28a74573;border-color: #28a74573;cursor: not-allowed;color:#fff" href="javascript:void(0)">Already downloaded</a>';
                         $encoderit_already_downloaded=true;
-                    }
+                    
                 }
                 if(!empty($singledata->files_by_admin) && !$encoderit_already_downloaded)
                 {
@@ -195,7 +193,7 @@ class EncoderITCustomForm extends WP_List_Table
                     'Amount'              =>'$ '. $singledata->total_price,
                     'Date'                => implode('/',array_reverse(explode('-',$date))),
                     'Admin Submitted Date'                => $updated_at,
-                    'Admin File Upload'        =>$download_link,
+                    'Admin File Upload'        =>'<div id="download_flag_'.$singledata->id.'">'.$download_link.'</div>',
                     'Action'                    => '',
                 );
                 $sl++;

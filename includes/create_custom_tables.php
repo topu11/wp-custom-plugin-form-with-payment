@@ -36,7 +36,8 @@ class encoderit_create_custom_table
             `files_by_admin` JSON NULL DEFAULT NULL , 
             `payment_method` VARCHAR(100) NULL , 
             `transaction_number` VARCHAR(100) NULL,
-            `total_price` FLOAT NOT NULL , 
+            `total_price` FLOAT NOT NULL ,
+            `is_downloaded_by_user` TINYINT NOT NULL DEFAULT '0', 
             `created_at` TIMESTAMP NULL DEFAULT NULL , 
             `updated_at` TIMESTAMP NULL DEFAULT NULL , PRIMARY KEY (`id`)
         ) $charset_collate;";

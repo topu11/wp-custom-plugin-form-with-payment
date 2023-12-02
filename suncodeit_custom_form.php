@@ -3,7 +3,7 @@
  * Plugin Name:       Suncode IT Custom Form
  * Plugin URI:        https://test.net/
  * Description:       Handle customized form with the plugin.
- * Version:           1.0.3
+ * Version:           1.0.6
  */
 
  define('ENCODER_IT_CUSTOM_FORM_SUBMIT', time());
@@ -62,7 +62,11 @@ function admin_enqueue_scripts_load()
 
   // wp_enqueue_style('encoderit_admin_custom_plugin_css');
 
-   
+  wp_localize_script('encoderit_custom_form_js_admin', 'action_url_ajax', array(
+   'ajax_url' => admin_url('admin-ajax.php'),
+   'nonce' => wp_create_nonce('user_zip_download_suncode')
+  ));
+
    wp_enqueue_script('encoderit_custom_form_stripe_admin');
    wp_enqueue_script('encoderit_custom_form_sweet_alert_admin');
    wp_enqueue_script('encoderit_custom_form_js_zs_zip');
@@ -77,11 +81,12 @@ add_action('admin_enqueue_scripts', 'admin_enqueue_scripts_load');
 
 /***********Ajax Functionalities ************/
 add_action('wp_ajax_enoderit_custom_form_submit', array('encoderit_ajax_endpoints','enoderit_custom_form_submit'));
+add_action('wp_ajax_enoderit_custom_form_download_zip_status', array('encoderit_ajax_endpoints','enoderit_custom_form_download_zip_status'));
 add_action('wp_ajax_enoderit_custom_form_admin_submit', array('encoderit_admin_functionalities','enoderit_custom_form_admin_submit'));
 
 
 if (!function_exists('encoderit_download_button_avaialbe')) {
-   function encoderit_download_button_avaialbe($updated_at,$case_id)
+   function encoderit_download_button_avaialbe($updated_at)
    {
       if(empty($updated_at))
       {
@@ -92,13 +97,7 @@ if (!function_exists('encoderit_download_button_avaialbe')) {
       $otherTimestamp = strtotime($updated_at);
       $timeDifferenceInSeconds = $otherTimestamp - $currentTimestamp;
       $interval = abs($timeDifferenceInSeconds);
-      if (isset($_COOKIE['encoder_it_file_downloed_by_user'])) {
-         $encoder_it_file_downloed_by_user = $_COOKIE['encoder_it_file_downloed_by_user'];
-         if(in_array($case_id,explode(',',$encoder_it_file_downloed_by_user)))
-         {
-            return false;
-         }
-     }
+
       if($interval/3600 <=24)
       {
          return true;
